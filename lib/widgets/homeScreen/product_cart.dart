@@ -74,7 +74,8 @@ class ProductCart extends StatelessWidget {
                   minimumSize: const Size(double.infinity, 40),
                   foregroundColor: theme.onPrimary,
                   backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent
+                  shadowColor: Colors.transparent,
+                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
                 onPressed: () {},
                 label: Text('Add', style: textTheme.labelMedium),
