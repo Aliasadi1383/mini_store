@@ -31,6 +31,12 @@ class MyApp extends StatelessWidget {
           labelLarge: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.bold,
+            color: const Color(0xFF777588),
+          ),
+          labelMedium: TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: Theme.of(context).colorScheme.onPrimary
           )
         ),
       ),
