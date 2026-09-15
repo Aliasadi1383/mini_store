@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/widgets/cartScreen/cart_state_info.dart';
 import 'package:mini_store/widgets/store_app_bar.dart';
 import 'package:mini_store/widgets/cartScreen/cart_header.dart';
 class CartScreen extends StatelessWidget {
@@ -12,7 +13,9 @@ class CartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-           CartHeader()
+           CartHeader(),
+           const SizedBox(height: 24,),
+           CartStateInfo()
           ],
         ),
       ),
