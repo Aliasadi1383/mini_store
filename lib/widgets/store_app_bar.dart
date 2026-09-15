@@ -26,6 +26,7 @@ class StoreAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           const SizedBox(width: 10),
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'FLUTTER STORE',
