@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/models/product_models.dart';
-import 'package:mini_store/widgets/app_gradient_button.dart';
+import 'package:mini_store/widgets/app_button.dart';
 
 class ProductCart extends StatelessWidget {
   final ProductModels product;
@@ -64,23 +64,10 @@ class ProductCart extends StatelessWidget {
 
             const Spacer(),
 
-            Container(
-              decoration: BoxDecoration(
-                gradient: AppGradientButton.primaryButton,
-                borderRadius: BorderRadius.circular(20)
-              ),
-              child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 40),
-                  foregroundColor: theme.onPrimary,
-                  backgroundColor: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                ),
-                onPressed: () {},
-                label: Text('Add', style: textTheme.labelMedium),
-                icon: const Icon(Icons.add_shopping_cart_outlined, size: 17),
-              ),
+            AppButton(
+              size: Size(double.infinity, 40),
+              text: 'Add',
+              icon: Icons.add_shopping_cart_outlined,
             ),
           ],
         ),
