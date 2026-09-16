@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mini_store/widgets/app_button.dart';
 
 class CartEmpty extends StatelessWidget {
-  const CartEmpty({super.key});
+  final VoidCallback onExploreProducts;
+  const CartEmpty({super.key,required this.onExploreProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +20,9 @@ class CartEmpty extends StatelessWidget {
             color: theme.tertiaryFixedDim.withValues(alpha: 0.5),
             shape: BoxShape.circle,
           ),
-          child: Icon(
-            Icons.shopping_bag,
-            size: 50,
-            color: theme.primary,
-          ),
+          child: Icon(Icons.shopping_bag, size: 50, color: theme.primary),
         ),
-    
+
         const SizedBox(height: 20),
         Text(
           'Your cart is empty',
@@ -34,16 +31,21 @@ class CartEmpty extends StatelessWidget {
             fontSize: 25,
           ),
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(height: 10),
         Text(
           textAlign: TextAlign.center,
           'Browse products to start shopping and\n'
           'discover new weekly tech drops.',
           style: textTheme.bodyMedium,
         ),
-        const SizedBox(height: 20,),
+        const SizedBox(height: 20),
 
-        AppButton(size: Size(200, 50), text: 'Explore Products', icon: Icons.storefront)
+        AppButton(
+          size: Size(200, 50),
+          text: 'Explore Products',
+          icon: Icons.storefront,
+          onPressed: onExploreProducts,
+        ),
       ],
     );
   }

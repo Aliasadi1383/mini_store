@@ -15,12 +15,20 @@ class MainScreen extends StatefulWidget {
 class _MainScreen extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [HomeScreen(), CartScreen()];
+
+  List<Widget> get pages => [
+    HomeScreen(),
+   CartScreen(onGoHome: () {
+     setState(() {
+       _selectedIndex=0;
+     });
+   },)];
 
   @override
   Widget build(BuildContext context) {
+  
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: pages[_selectedIndex],
       bottomNavigationBar: StoreBottomNavigationBar(
         selectedIndex: _selectedIndex,
         onItemSelected: (index) {

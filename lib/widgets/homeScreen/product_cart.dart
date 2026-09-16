@@ -65,6 +65,9 @@ class ProductCart extends StatelessWidget {
             const Spacer(),
 
             AppButton(
+              onPressed: () {
+                
+              },
               size: Size(double.infinity, 40),
               text: 'Add',
               icon: Icons.add_shopping_cart_outlined,

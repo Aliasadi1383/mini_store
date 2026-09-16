@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CartHeader extends StatelessWidget {
-  const CartHeader({super.key});
+  final VoidCallback onBack;
+  const CartHeader({super.key,required this.onBack});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class CartHeader extends StatelessWidget {
               theme.secondary.withValues(alpha: 0.15),
             ),
           ),
-          onPressed: () {},
+          onPressed: onBack,
           icon: const Icon(Icons.arrow_back),
         ),
         const SizedBox(width: 10),

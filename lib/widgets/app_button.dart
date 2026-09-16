@@ -5,11 +5,13 @@ class AppButton extends StatelessWidget {
   final Size size;
   final String text;
   final IconData icon;
+  final VoidCallback onPressed;
   const AppButton({
     super.key,
     required this.size,
     required this.text,
     required this.icon,
+    required this.onPressed
   });
 
   @override
@@ -27,7 +29,7 @@ class AppButton extends StatelessWidget {
           shadowColor: Colors.transparent,
           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         label: Text(
           text,
           style: Theme.of(context).textTheme.labelMedium,
