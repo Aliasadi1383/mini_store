@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mini_store/screens/cart_screen.dart';
+import 'package:mini_store/screens/main_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -39,7 +39,8 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: CartScreen(),
+      home: MainScreen(),
+      
     );
   }
 }
