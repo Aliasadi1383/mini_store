@@ -22,7 +22,7 @@ class CartStateInfo extends StatelessWidget {
               height: 40,
               width: 40,
               decoration: BoxDecoration(
-                color: theme.secondaryFixedDim.withValues(alpha: 0.5),
+                color: theme.tertiaryFixedDim.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(14),
               ),
               child: Icon(

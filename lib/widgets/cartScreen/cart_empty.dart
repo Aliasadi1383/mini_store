@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:mini_store/widgets/app_gradient_button.dart';
+
+class CartEmpty extends StatelessWidget {
+  const CartEmpty({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final ColorScheme theme = Theme.of(context).colorScheme;
+    final TextTheme textTheme = Theme.of(context).textTheme;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            color: theme.tertiaryFixedDim.withValues(alpha: 0.5),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            Icons.shopping_bag,
+            size: 60,
+            color: theme.primary,
+          ),
+        ),
+    
+        const SizedBox(height: 20),
+        Text(
+          'Your cart is empty',
+          style: textTheme.headlineSmall!.copyWith(
+            fontWeight: FontWeight.w600,
+            fontSize: 25,
+          ),
+        ),
+        const SizedBox(height: 10,),
+        Text(
+          textAlign: TextAlign.center,
+          'Browse products to start shopping and\n'
+          'discover new weekly tech drops.',
+          style: textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 20,),
+        Container(
+          decoration: BoxDecoration(
+            gradient: AppGradientButton.primaryButton,
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(100, 50),
+              foregroundColor: theme.onPrimary,
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            ),
+            onPressed: () {},
+            label: Text(
+              'Explore Products',
+              style: textTheme.labelMedium,
+            ),
+            icon: const Icon(Icons.storefront, size: 17),
+          ),
+        ),
+      ],
+    );
+  }
+}
