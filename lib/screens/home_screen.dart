@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
-import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/logics/home_logic.dart';
 import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/models/product_models.dart';
@@ -10,15 +9,24 @@ import 'package:mini_store/widgets/store_app_bar.dart';
 import 'package:mini_store/widgets/homeScreen/product_cart.dart';
 
 class HomeScreen extends StatefulWidget {
-    final List<CartModels>cartList;
-  const HomeScreen({super.key,required this.cartList});
+  final List<CartModels> cartList;
+  final ValueChanged<CartModels> onIncrease;
+  final ValueChanged<CartModels> onDecrease;
+  final ValueChanged<ProductModels>onAddCart;
+  const HomeScreen({
+    super.key,
+    required this.cartList,
+    required this.onIncrease,
+    required this.onDecrease,
+    required this.onAddCart
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   Categories? _selectedCategory;
   @override
   Widget build(BuildContext context) {
@@ -27,17 +35,20 @@ class _HomeScreenState extends State<HomeScreen> {
       products,
     );
 
-    final  filteredProducts = HomeLogic.filterCategory(
+    final filteredProducts = HomeLogic.filterCategory(
       _selectedCategory,
       searchedProducts,
     );
 
     return Scaffold(
-      appBar:const StoreAppBar(title: 'Products'),
+      appBar: const StoreAppBar(title: 'Products'),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
-            padding:const EdgeInsetsGeometry.symmetric(horizontal: 15, vertical: 12),
+            padding: const EdgeInsetsGeometry.symmetric(
+              horizontal: 15,
+              vertical: 12,
+            ),
             sliver: SliverToBoxAdapter(
               child: ProductSearchField(
                 controller: _searchController,
@@ -73,20 +84,29 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           else
             SliverPadding(
-              padding:const EdgeInsetsGeometry.symmetric(
+              padding: const EdgeInsetsGeometry.symmetric(
                 horizontal: 15,
                 vertical: 12,
               ),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
+                  final cartitem = widget.cartList
+                      .where(
+                        (cart) => cart.product.id == filteredProducts[index].id,
+                      )
+                      .firstOrNull;
+
                   return ProductCart(
                     product: filteredProducts[index],
-                    addCart:() {
-                      CartLogic.addProductCart(CartModels(product: filteredProducts[index],quantity: 1),widget.cartList);
-                    } ,
-                    );
+                    addCart: () {
+                     widget.onAddCart(filteredProducts[index]);
+                    },
+                    cart: cartitem,
+                    onIncrease: widget.onIncrease,
+                    onDecrease: widget.onDecrease,
+                  );
                 }, childCount: filteredProducts.length),
-                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
@@ -95,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-             SliverToBoxAdapter(child: SizedBox(height: 20,))
+          SliverToBoxAdapter(child: SizedBox(height: 20)),
         ],
       ),
     );

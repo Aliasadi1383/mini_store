@@ -9,7 +9,17 @@ import 'package:mini_store/widgets/cartScreen/cart_header.dart';
 class CartScreen extends StatelessWidget {
   final VoidCallback onGoHome;
   final List<CartModels> cartList;
-  const CartScreen({super.key, required this.onGoHome, required this.cartList});
+  final ValueChanged<CartModels> onIncrease;
+  final ValueChanged<CartModels> onDecrease;
+  final ValueChanged<CartModels> onDeleted;
+  const CartScreen({
+    super.key,
+    required this.onGoHome,
+    required this.cartList,
+    required this.onIncrease,
+    required this.onDecrease,
+    required this.onDeleted
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +42,10 @@ class CartScreen extends StatelessWidget {
                   itemCount: cartList.length,
                   itemBuilder: (context, index) {
                     return CartItem(
-                      imagePath: cartList[index].product.imagePath,
-                      name: cartList[index].product.name,
-                      price:cartList[index].product.price ,
+                      cart: cartList[index],
+                      onDecrease: onDecrease,
+                      onIncrease: onIncrease,
+                      onDeleted:   onDeleted,
                     );
                   },
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/screens/cart_screen.dart';
 import 'package:mini_store/screens/home_screen.dart';
@@ -16,21 +17,55 @@ class MainScreen extends StatefulWidget {
 class _MainScreen extends State<MainScreen> {
   int _selectedIndex = 0;
 
-  List<CartModels> cartList=[];
+  List<CartModels> cartList = [];
 
   List<Widget> get pages => [
-    HomeScreen(cartList: cartList,),
-   CartScreen(
-    cartList: cartList,
-    onGoHome: () {
-     setState(() {
-       _selectedIndex=0;
-     });
-   },)];
+    HomeScreen(
+      cartList: cartList,
+      onIncrease: (cart) {
+        setState(() {
+          CartLogic.increaseQuantity(cart);
+        });
+      },
+      onDecrease: (cart) {
+        setState(() {
+          CartLogic.decreaseQuantity(cart);
+          
+        });
+      },
+      onAddCart: (product) {
+        setState(() {
+          CartLogic.addProductCart(CartModels(product: product, quantity: 1), cartList);
+        });
+      },
+    ),
+    CartScreen(
+      cartList: cartList,
+      onGoHome: () {
+        setState(() {
+          _selectedIndex = 0;
+        });
+      },
+      onIncrease: (cart) {
+        setState(() {
+          CartLogic.increaseQuantity(cart);
+        });
+      },
+      onDecrease: (cart) {
+        setState(() {
+            CartLogic.decreaseQuantity(cart);
+        });
+      },
+      onDeleted: (cart) {
+        setState(() {
+          CartLogic.removeProductCart(cart, cartList);
+        });
+      },
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       body: pages[_selectedIndex],
       bottomNavigationBar: StoreBottomNavigationBar(

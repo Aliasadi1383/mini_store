@@ -12,4 +12,18 @@ class CartLogic {
       cartList[index].quantity++;
     }
   }
+  
+  static void increaseQuantity(CartModels cart){
+  cart.quantity++;
+  }
+
+  static void decreaseQuantity(CartModels cart){
+  if (cart.quantity>1) {
+    cart.quantity--;
+  }
+  }
+
+  static void removeProductCart(CartModels cart,List<CartModels> cartList){
+  cartList.remove(cart);
+  }
 }

@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/models/cart_models.dart';
+import 'package:mini_store/widgets/quantity_selector.dart';
 
 class CartItem extends StatelessWidget {
-  final String imagePath;
-  final String name;
-  final double price;
+  
+  final CartModels cart;
+  final ValueChanged<CartModels> onIncrease;
+  final ValueChanged<CartModels> onDecrease;
+  final ValueChanged<CartModels> onDeleted;
   const CartItem({
     super.key,
-    required this.imagePath,
-    required this.name,
-    required this.price,
+    required this.onIncrease,
+    required this.onDecrease,
+    required this.cart,
+    required this.onDeleted
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.red,
+      color: Theme.of(context).colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Row(
@@ -28,14 +33,10 @@ class CartItem extends StatelessWidget {
                 children: [
                   _buildCartHeader(context),
                   Text(
-                    '\$${price.toStringAsFixed(2)} each',
+                    '\$${cart.product.price.toStringAsFixed(2)} each',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  const SizedBox(height: 5),
-                  Text(
-                    '\$${price.toStringAsFixed(2)}',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  _buildTotalPrice(context),
                 ],
               ),
             ),
@@ -45,13 +46,32 @@ class CartItem extends StatelessWidget {
     );
   }
 
+  Widget _buildTotalPrice(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            '\$${(cart.product.price*cart.quantity).toStringAsFixed(2)}',
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        QuantitySelector(
+          quantity: cart.quantity,
+          onIncrease: () => onIncrease(cart),
+          onDecrease: () => onDecrease(cart),
+        ),
+      ],
+    );
+  }
+
   Widget _buildCartHeader(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
-            name,
+            cart.product.name,
             style: Theme.of(context).textTheme.titleMedium,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -60,11 +80,11 @@ class CartItem extends StatelessWidget {
         IconButton(
           style: IconButton.styleFrom(
             padding: EdgeInsets.zero,
-            
+
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           constraints: BoxConstraints(),
-          onPressed: () {},
+          onPressed: () => onDeleted(cart),
           icon: Icon(Icons.delete_outline),
         ),
       ],
@@ -74,7 +94,7 @@ class CartItem extends StatelessWidget {
   Widget _buildCartImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(imagePath, width: 80, height: 80, fit: BoxFit.cover),
+      child: Image.asset(cart.product.imagePath, width: 80, height: 80, fit: BoxFit.cover),
     );
   }
 }

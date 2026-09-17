@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/models/product_models.dart';
 import 'package:mini_store/widgets/app_button.dart';
+import 'package:mini_store/widgets/quantity_selector.dart';
 
 class ProductCart extends StatelessWidget {
   final ProductModels product;
   final VoidCallback addCart;
-  const ProductCart({super.key, required this.product,required this.addCart});
+  final CartModels? cart;
+  final ValueChanged<CartModels> onIncrease;
+  final ValueChanged<CartModels> onDecrease;
+  const ProductCart({
+    super.key,
+    required this.product,
+    required this.addCart,
+    required this.cart,
+    required this.onIncrease,
+    required this.onDecrease,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +76,19 @@ class ProductCart extends StatelessWidget {
             const SizedBox(height: 8),
 
             const Spacer(),
-
-            AppButton(
-              onPressed: addCart,
-              size: Size(double.infinity, 40),
-              text: 'Add',
-              icon: Icons.add_shopping_cart_outlined,
-            ),
+            if (cart == null)
+              AppButton(
+                onPressed: addCart,
+                size: Size(double.infinity, 40),
+                text: 'Add',
+                icon: Icons.add_shopping_cart_outlined,
+              )
+            else
+              QuantitySelector(
+                quantity: cart!.quantity,
+                onIncrease: () => onIncrease(cart!),
+                onDecrease: () => onDecrease(cart!),
+              ),
           ],
         ),
       ),
