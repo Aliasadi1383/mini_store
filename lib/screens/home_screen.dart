@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
+import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/logics/home_logic.dart';
+import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/models/product_models.dart';
 import 'package:mini_store/widgets/homeScreen/product_category_filter.dart';
 import 'package:mini_store/widgets/homeScreen/product_search_field.dart';
@@ -8,7 +10,8 @@ import 'package:mini_store/widgets/store_app_bar.dart';
 import 'package:mini_store/widgets/homeScreen/product_cart.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+    final List<CartModels>cartList;
+  const HomeScreen({super.key,required this.cartList});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -76,7 +79,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  return ProductCart(product: filteredProducts[index]);
+                  return ProductCart(
+                    product: filteredProducts[index],
+                    addCart:() {
+                      CartLogic.addProductCart(CartModels(product: filteredProducts[index],quantity: 1),widget.cartList);
+                    } ,
+                    );
                 }, childCount: filteredProducts.length),
                 gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,

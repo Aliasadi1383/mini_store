@@ -4,7 +4,8 @@ import 'package:mini_store/widgets/app_button.dart';
 
 class ProductCart extends StatelessWidget {
   final ProductModels product;
-  const ProductCart({super.key, required this.product});
+  final VoidCallback addCart;
+  const ProductCart({super.key, required this.product,required this.addCart});
 
   @override
   Widget build(BuildContext context) {
@@ -65,9 +66,7 @@ class ProductCart extends StatelessWidget {
             const Spacer(),
 
             AppButton(
-              onPressed: () {
-                
-              },
+              onPressed: addCart,
               size: Size(double.infinity, 40),
               text: 'Add',
               icon: Icons.add_shopping_cart_outlined,
