@@ -84,9 +84,11 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           else
             SliverPadding(
-              padding: const EdgeInsetsGeometry.symmetric(
-                horizontal: 15,
-                vertical: 12,
+              padding: const EdgeInsets.only(
+              right: 15,
+              left: 15,
+              top: 12,
+              bottom: 60
               ),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
@@ -115,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
 
-          SliverToBoxAdapter(child: SizedBox(height: 20)),
         ],
       ),
     );

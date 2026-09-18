@@ -3,6 +3,7 @@ import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/screens/cart_screen.dart';
 import 'package:mini_store/screens/home_screen.dart';
+import 'package:mini_store/widgets/cart_snack_bar.dart';
 import 'package:mini_store/widgets/store_bottom_navigation_bar.dart';
 
 class MainScreen extends StatefulWidget {
@@ -45,6 +46,29 @@ class _MainScreen extends State<MainScreen> {
           hasNewCartItem = true;
           newCartItems++;
         });
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadiusGeometry.circular(16),
+            ),
+            duration: Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            margin: EdgeInsets.only(right: 20, left: 20, bottom: 16),
+            content: CartSnackBar(
+              numberItemCart: newCartItems,
+              onViewCart: () {
+                setState(() {
+                  _selectedIndex = 1;
+                  hasNewCartItem = false;
+                  newCartItems = 0;
+                });
+                ScaffoldMessenger.of(context).clearSnackBars();
+              },
+            ),
+          ),
+        );
       },
     ),
     CartScreen(
@@ -91,6 +115,9 @@ class _MainScreen extends State<MainScreen> {
               newCartItems = 0;
             }
           });
+          if (index == 1) {
+            ScaffoldMessenger.of(context).clearSnackBars();
+          }
         },
         numberItemCart: newCartItems,
         hasNewCartitem: hasNewCartItem,
