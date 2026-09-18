@@ -19,6 +19,10 @@ class _MainScreen extends State<MainScreen> {
 
   List<CartModels> cartList = [];
 
+  bool hasNewCartItem = false;
+
+  int newCartItems = 0;
+
   List<Widget> get pages => [
     HomeScreen(
       cartList: cartList,
@@ -30,12 +34,16 @@ class _MainScreen extends State<MainScreen> {
       onDecrease: (cart) {
         setState(() {
           CartLogic.decreaseQuantity(cart);
-          
         });
       },
       onAddCart: (product) {
         setState(() {
-          CartLogic.addProductCart(CartModels(product: product, quantity: 1), cartList);
+          CartLogic.addProductCart(
+            CartModels(product: product, quantity: 1),
+            cartList,
+          );
+          hasNewCartItem = true;
+          newCartItems++;
         });
       },
     ),
@@ -53,12 +61,17 @@ class _MainScreen extends State<MainScreen> {
       },
       onDecrease: (cart) {
         setState(() {
-            CartLogic.decreaseQuantity(cart);
+          CartLogic.decreaseQuantity(cart);
         });
       },
       onDeleted: (cart) {
         setState(() {
           CartLogic.removeProductCart(cart, cartList);
+        });
+      },
+      onDeleteAll: () {
+        setState(() {
+          cartList.clear();
         });
       },
     ),
@@ -73,8 +86,14 @@ class _MainScreen extends State<MainScreen> {
         onItemSelected: (index) {
           setState(() {
             _selectedIndex = index;
+            if (index == 1) {
+              hasNewCartItem = false;
+              newCartItems = 0;
+            }
           });
         },
+        numberItemCart: newCartItems,
+        hasNewCartitem: hasNewCartItem,
       ),
     );
   }

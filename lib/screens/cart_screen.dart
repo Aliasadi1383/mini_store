@@ -12,13 +12,15 @@ class CartScreen extends StatelessWidget {
   final ValueChanged<CartModels> onIncrease;
   final ValueChanged<CartModels> onDecrease;
   final ValueChanged<CartModels> onDeleted;
+  final VoidCallback onDeleteAll;
   const CartScreen({
     super.key,
     required this.onGoHome,
     required this.cartList,
     required this.onIncrease,
     required this.onDecrease,
-    required this.onDeleted
+    required this.onDeleted,
+    required this.onDeleteAll
   });
 
   @override
@@ -29,7 +31,12 @@ class CartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            CartHeader(onBack: onGoHome),
+            CartHeader(
+              onBack: onGoHome,
+              productQuantity:cartList.length,
+              isEmptyCart: cartList.isEmpty,
+              onDeleteAll: onDeleteAll,
+              ),
             const SizedBox(height: 24),
             CartStateInfo(),
             if (cartList.isEmpty)

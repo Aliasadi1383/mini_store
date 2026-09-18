@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 
 class CartHeader extends StatelessWidget {
   final VoidCallback onBack;
-  const CartHeader({super.key,required this.onBack});
+  final int productQuantity;
+  final bool isEmptyCart;
+  final VoidCallback onDeleteAll;
+  const CartHeader({
+    super.key,
+    required this.onBack,
+    required this.productQuantity,
+    required this.isEmptyCart,
+    required this.onDeleteAll
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -37,13 +46,24 @@ class CartHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            '0 items',
+            '$productQuantity items',
             style: textTheme.labelLarge!.copyWith(
               color: theme.onSecondaryContainer,
               fontSize: 12,
             ),
           ),
         ),
+        Spacer(),
+        if (!isEmptyCart)
+          TextButton.icon(
+            style: TextButton.styleFrom(
+              backgroundColor: theme.secondary.withValues(alpha: 0.15),
+              minimumSize: Size.zero,
+            ),
+            onPressed: onDeleteAll,
+            label: Text('Delete All'),
+            icon: Icon(Icons.delete_rounded),
+          ),
       ],
     );
   }
