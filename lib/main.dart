@@ -35,6 +35,10 @@ class MyApp extends StatelessWidget {
             fontSize: 13,
             fontWeight: FontWeight.w600,
             color: Theme.of(context).colorScheme.onPrimary
+          ),
+          titleSmall: TextStyle(
+          color: Theme.of(context).colorScheme.secondary,
+          fontWeight: FontWeight.w400, 
           )
         ),
       ),

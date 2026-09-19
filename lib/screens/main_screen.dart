@@ -17,12 +17,14 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreen extends State<MainScreen> {
   int _selectedIndex = 0;
-
   List<CartModels> cartList = [];
-
   bool hasNewCartItem = false;
-
   int newCartItems = 0;
+  double get subtotal => CartLogic.subTotal(cartList);
+  int get discount => CartLogic.discount(subtotal);
+  int get tax => CartLogic.tax(subtotal);
+  double get discountAmount => CartLogic.discountAmount(subtotal, discount);
+  double get taxAmount => CartLogic.taxAmount(subtotal, tax);
 
   List<Widget> get pages => [
     HomeScreen(
@@ -50,7 +52,7 @@ class _MainScreen extends State<MainScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadiusGeometry.circular(16),
+              borderRadius: BorderRadius.circular(16),
             ),
             duration: Duration(seconds: 3),
             behavior: SnackBarBehavior.floating,
@@ -71,6 +73,7 @@ class _MainScreen extends State<MainScreen> {
         );
       },
     ),
+
     CartScreen(
       cartList: cartList,
       onGoHome: () {
@@ -98,6 +101,13 @@ class _MainScreen extends State<MainScreen> {
           cartList.clear();
         });
       },
+      totalCartQuantity: CartLogic.totalQuantity(cartList),
+      subTatal: subtotal,
+      discount: discount,
+      discountAmount: discountAmount,
+      tax: tax,
+      taxAmount: taxAmount,
+      totalAmount: CartLogic.totalAmount(subtotal, discountAmount, taxAmount),
     ),
   ];
 

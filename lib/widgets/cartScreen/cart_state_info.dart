@@ -10,8 +10,9 @@ class CartStateInfo extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: theme.secondary.withValues(alpha: 0.1),
+        color: theme.secondary.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(16),
+        
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),

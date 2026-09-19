@@ -19,6 +19,8 @@ class CartItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      elevation: 2,
+     margin: EdgeInsets.only(top: 12),
       color: Theme.of(context).colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.all(16),

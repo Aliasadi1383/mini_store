@@ -30,10 +30,7 @@ class ProductSearchField extends StatelessWidget {
         fillColor: theme.secondary.withValues(alpha: 0.12),
         filled: true,
         hintText: 'Search products by name...',
-        hintStyle: textTheme.titleSmall!.copyWith(
-          color: theme.secondary,
-          fontWeight: FontWeight.w400,
-        ),
+        hintStyle: textTheme.titleSmall,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
           borderSide: BorderSide(color: theme.primary, width: 2),

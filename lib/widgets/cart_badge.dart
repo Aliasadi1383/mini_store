@@ -11,7 +11,9 @@ class CartBadge extends StatelessWidget {
       width: 22,
       height: 22,
       alignment: Alignment.center,
-      decoration: BoxDecoration(shape: BoxShape.circle, color: theme.surface),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle, color: theme.surface
+        ),
       child: Container(
         width: 18,
         height: 18,
