@@ -21,6 +21,7 @@ class CartScreen extends StatelessWidget {
   final double discountAmount;
   final double taxAmount;
   final double totalAmount;
+  final VoidCallback onSubmitOrder;
   const CartScreen({
     super.key,
     required this.onGoHome,
@@ -36,6 +37,7 @@ class CartScreen extends StatelessWidget {
     required this.tax,
     required this.taxAmount,
     required this.totalAmount,
+    required this.onSubmitOrder
   });
 
   @override
@@ -78,6 +80,7 @@ class CartScreen extends StatelessWidget {
                     tax: tax,
                     taxAmount: taxAmount,
                     totalAmount: totalAmount,
+                    onSubmitOrder: onSubmitOrder,
                   ),
                 ],
               ]),

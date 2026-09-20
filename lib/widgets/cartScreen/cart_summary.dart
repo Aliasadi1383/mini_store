@@ -10,6 +10,7 @@ class CartSummary extends StatelessWidget {
   final int tax;
   final double taxAmount;
   final double totalAmount;
+  final VoidCallback onSubmitOrder;
   const CartSummary({
     super.key,
     required this.totalCartQuantity,
@@ -20,6 +21,7 @@ class CartSummary extends StatelessWidget {
     required this.tax,
     required this.taxAmount,
     required this.totalAmount,
+    required this.onSubmitOrder
   });
 
   @override
@@ -101,9 +103,7 @@ class CartSummary extends StatelessWidget {
               text: 'Submit Order',
               icon: Icons.lock_outline,
               endIcon: Icons.arrow_forward,
-              onPressed: () {
-                
-              },
+              onPressed: onSubmitOrder
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/screens/cart_screen.dart';
 import 'package:mini_store/screens/home_screen.dart';
+import 'package:mini_store/widgets/cartScreen/order_success_dialog.dart';
 import 'package:mini_store/widgets/cart_snack_bar.dart';
 import 'package:mini_store/widgets/store_bottom_navigation_bar.dart';
 
@@ -108,6 +109,19 @@ class _MainScreen extends State<MainScreen> {
       tax: tax,
       taxAmount: taxAmount,
       totalAmount: CartLogic.totalAmount(subtotal, discountAmount, taxAmount),
+      onSubmitOrder: () {
+        showDialog(
+          barrierDismissible: false,
+          context: context,
+          builder: (context) => OrderSuccessDialog(continueShopping: () {
+            Navigator.pop(context);
+            setState(() {
+              cartList.clear();
+              _selectedIndex=0;
+            });
+          }),
+        );
+      },
     ),
   ];
 
