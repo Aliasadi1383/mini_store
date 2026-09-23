@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/models/cart_models.dart';
+import 'package:mini_store/state/cart_provider.dart';
+import 'package:mini_store/state/cart_state.dart';
 import 'package:mini_store/widgets/quantity_selector.dart';
 
 class CartItem extends StatelessWidget {
   
-  final CartModels cart;
-  final ValueChanged<CartModels> onIncrease;
-  final ValueChanged<CartModels> onDecrease;
-  final ValueChanged<CartModels> onDeleted;
+  final CartItemModel cart;
+
   const CartItem({
     super.key,
-    required this.onIncrease,
-    required this.onDecrease,
+
     required this.cart,
-    required this.onDeleted
   });
 
   @override
   Widget build(BuildContext context) {
+    final CartState cartState=CartProvider.of(context);
+
     return Card(
       elevation: 2,
      margin: EdgeInsets.only(top: 12),
@@ -49,6 +49,8 @@ class CartItem extends StatelessWidget {
   }
 
   Widget _buildTotalPrice(BuildContext context) {
+  final CartState cartState=CartProvider.of(context);
+  
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -59,9 +61,10 @@ class CartItem extends StatelessWidget {
           ),
         ),
         QuantitySelector(
-          quantity: cart.quantity,
-          onIncrease: () => onIncrease(cart),
-          onDecrease: () => onDecrease(cart),
+          // quantity: cart.quantity,
+          cart: cart,
+          //onIncrease: () => onIncrease(cart),
+          //onDecrease: () => onDecrease(cart),
         ),
       ],
     );
@@ -86,7 +89,7 @@ class CartItem extends StatelessWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           constraints: BoxConstraints(),
-          onPressed: () => onDeleted(cart),
+          onPressed: () => CartProvider.of(context).removeCart(cart),
           icon: Icon(Icons.delete_outline),
         ),
       ],

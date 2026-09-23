@@ -1,18 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/state/app_provider.dart';
 
+ class CartSnackBarHelper {
+  static void show({
+    required BuildContext context,
+  }) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+          horizontal: 16,
+        ),
+        margin: const EdgeInsets.only(
+          right: 20,
+          left: 20,
+          bottom: 16,
+        ),
+        content: CartSnackBar(
+          
+        ),
+      ),
+    );
+  }
+}
+
+  
 class CartSnackBar extends StatelessWidget {
-  final int numberItemCart;
-  final VoidCallback onViewCart;
+  
   const CartSnackBar({
-    super.key,required this.numberItemCart,
-    required this.onViewCart
+    super.key
     });
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
-
+    final appState = AppProvider.of(context);
+    
     return Row(
       children: [
         Container(
@@ -30,7 +61,7 @@ class CartSnackBar extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Cart ($numberItemCart items)',
+                'Cart (${appState.cartBadgeCount} items)',
                 style: textTheme.bodyMedium!.copyWith(
                   color: theme.onPrimary,
                   fontWeight: FontWeight.bold,
@@ -51,7 +82,12 @@ class CartSnackBar extends StatelessWidget {
             padding:const EdgeInsets.symmetric(horizontal: 15),
             backgroundColor: theme.primary,
           ),
-          onPressed: onViewCart,
+          onPressed:() {
+             ScaffoldMessenger.of(context).clearSnackBars();
+            Future.delayed(Duration(milliseconds: 150),() {
+               appState.goCart();
+            },);
+          },
           child: Row(
             children: [
               Text('View', style: textTheme.labelMedium),

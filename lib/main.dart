@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/screens/main_screen.dart';
+import 'package:mini_store/state/app_scope.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: MainScreen(),
+      home: AppScope(child: MainScreen()),
       
     );
   }

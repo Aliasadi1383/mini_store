@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/models/cart_models.dart';
+import 'package:mini_store/state/cart_provider.dart';
+import 'package:mini_store/state/cart_state.dart';
 
 class QuantitySelector extends StatelessWidget {
-  final int quantity;
-  final VoidCallback onIncrease;
-  final VoidCallback onDecrease;
+  final CartItemModel cart;
   const QuantitySelector({
     super.key,
-    required this.quantity,
-    required this.onIncrease,
-    required this.onDecrease,
+    required this.cart
   });
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
-
+    final CartState cartState=CartProvider.of(context);
     return Container(
       decoration: BoxDecoration(
         color: theme.tertiaryFixedDim.withValues(alpha: 0.5),
@@ -30,12 +29,12 @@ class QuantitySelector extends StatelessWidget {
               disabledBackgroundColor: theme.surfaceContainerHighest,
              
             ),
-            onPressed: quantity == 1 ? null : onDecrease,
+            onPressed: cart.quantity == 1 ? null :()=> cartState.decreaseQuantity(cart),
             icon: Icon(Icons.remove),
           ),
           SizedBox(width: 10),
           Text(
-            quantity.toString(),
+            cart.quantity.toString(),
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: theme.primary,
               fontSize: 16,
@@ -45,7 +44,7 @@ class QuantitySelector extends StatelessWidget {
           IconButton(
             color: Colors.white,
             style: IconButton.styleFrom(backgroundColor: theme.primary),
-            onPressed: onIncrease,
+            onPressed:()=> cartState.increaseQuantity(cart),
             icon: Icon(Icons.add),
           ),
         ],

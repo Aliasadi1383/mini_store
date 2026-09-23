@@ -1,31 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/logics/cart_logic.dart';
+import 'package:mini_store/state/app_provider.dart';
+import 'package:mini_store/state/cart_provider.dart';
 import 'package:mini_store/widgets/app_button.dart';
+import 'package:mini_store/widgets/cartScreen/order_success_dialog.dart';
 
 class CartSummary extends StatelessWidget {
-  final int totalCartQuantity;
-  final int numberCartItem;
-  final double subTotal;
-  final int discount;
-  final double discountAmount;
-  final int tax;
-  final double taxAmount;
-  final double totalAmount;
-  final VoidCallback onSubmitOrder;
   const CartSummary({
     super.key,
-    required this.totalCartQuantity,
-    required this.numberCartItem,
-    required this.subTotal,
-    required this.discount,
-    required this.discountAmount,
-    required this.tax,
-    required this.taxAmount,
-    required this.totalAmount,
-    required this.onSubmitOrder
   });
 
   @override
   Widget build(BuildContext context) {
+  final appState = AppProvider.of(context);
+  final cartState = CartProvider.of(context);
+  final subtotal = CartLogic.subTotal(cartState.cartList);
+  final discount = CartLogic.discount(subtotal);
+  final tax = CartLogic.tax(subtotal);
+  final discountAmount = CartLogic.discountAmount(subtotal, discount);
+  final taxAmount = CartLogic.taxAmount(subtotal, tax);
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
@@ -44,7 +37,7 @@ class CartSummary extends StatelessWidget {
                 Expanded(
                   child: Text(
                     overflow: TextOverflow.ellipsis,
-                    '$totalCartQuantity items ($numberCartItem distinct products)',
+                    '${CartLogic.totalQuantity(cartState.cartList)} items (${cartState.cartList.length} distinct products)',
                     style: textTheme.titleSmall,
                   ),
                 ),
@@ -56,7 +49,7 @@ class CartSummary extends StatelessWidget {
               children: [
                 Text('Subtotal', style: textTheme.bodyMedium),
                 Text(
-                  '\$${subTotal.toStringAsFixed(2)}',
+                  '\$${subtotal.toStringAsFixed(2)}',
                   style: textTheme.bodyMedium,
                 ),
               ],
@@ -64,7 +57,7 @@ class CartSummary extends StatelessWidget {
             const SizedBox(height: 8),
             _summaryRow(
               title: 'Discount',
-              percentage: discount,
+              percentage:discount ,
               amount: discountAmount,
               textTheme: textTheme,
               color: theme.tertiary.withValues(green: 0.75),
@@ -90,7 +83,7 @@ class CartSummary extends StatelessWidget {
               ),
             ),
             Text(
-              '\$${totalAmount.toStringAsFixed(2)}',
+              '\$${CartLogic.totalAmount(subtotal, discountAmount, taxAmount).toStringAsFixed(2)}',
               style: textTheme.headlineSmall!.copyWith(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -103,7 +96,12 @@ class CartSummary extends StatelessWidget {
               text: 'Submit Order',
               icon: Icons.lock_outline,
               endIcon: Icons.arrow_forward,
-              onPressed: onSubmitOrder
+              onPressed: () {
+                  OrderSuccessDialogHelper.show(context, () {
+                    cartState.deleteAllCart();
+                    appState.goHome();
+                  },);
+              },
             ),
           ],
         ),

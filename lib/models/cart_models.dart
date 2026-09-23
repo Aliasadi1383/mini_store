@@ -1,8 +1,8 @@
 import 'package:mini_store/models/product_models.dart';
 
-class CartModels{
+class CartItemModel{
   final ProductModels product;
    int quantity;
 
-   CartModels({required this.product, required this.quantity});
+   CartItemModel({required this.product, required this.quantity});
 }

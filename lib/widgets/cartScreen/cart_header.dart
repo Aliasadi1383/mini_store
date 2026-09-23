@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/state/app_provider.dart';
+import 'package:mini_store/state/cart_provider.dart';
 
 class CartHeader extends StatelessWidget {
-  final VoidCallback onBack;
-  final int productQuantity;
-  final bool isEmptyCart;
-  final VoidCallback onDeleteAll;
   const CartHeader({
     super.key,
-    required this.onBack,
-    required this.productQuantity,
-    required this.isEmptyCart,
-    required this.onDeleteAll
+
   });
 
   @override
   Widget build(BuildContext context) {
+    final appState = AppProvider.of(context);
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final cartState=CartProvider.of(context);
+
 
     return Row(
       children: [
@@ -26,7 +24,7 @@ class CartHeader extends StatelessWidget {
               theme.secondary.withValues(alpha: 0.15),
             ),
           ),
-          onPressed: onBack,
+          onPressed: appState.goHome,
           icon: const Icon(Icons.arrow_back),
         ),
         const SizedBox(width: 10),
@@ -46,7 +44,7 @@ class CartHeader extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           child: Text(
-            '$productQuantity items',
+            '${cartState.cartList.length} items',
             style: textTheme.labelLarge!.copyWith(
               color: theme.onSecondaryContainer,
               fontSize: 12,
@@ -54,13 +52,13 @@ class CartHeader extends StatelessWidget {
           ),
         ),
         Spacer(),
-        if (!isEmptyCart)
+        if (cartState.cartList.isNotEmpty)
           TextButton.icon(
             style: TextButton.styleFrom(
               backgroundColor: theme.secondary.withValues(alpha: 0.15),
               minimumSize: Size.zero,
             ),
-            onPressed: onDeleteAll,
+            onPressed: cartState.deleteAllCart,
             label: Text('Delete All'),
             icon: Icon(Icons.delete_rounded),
           ),

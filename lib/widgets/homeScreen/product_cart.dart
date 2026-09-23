@@ -4,19 +4,17 @@ import 'package:mini_store/models/product_models.dart';
 import 'package:mini_store/widgets/app_button.dart';
 import 'package:mini_store/widgets/quantity_selector.dart';
 
-class ProductCart extends StatelessWidget {
+class ProductCard extends StatelessWidget {
   final ProductModels product;
   final VoidCallback addCart;
-  final CartModels? cart;
-  final ValueChanged<CartModels> onIncrease;
-  final ValueChanged<CartModels> onDecrease;
-  const ProductCart({
+  final CartItemModel? cart;
+  
+  const ProductCard({
     super.key,
     required this.product,
     required this.addCart,
     required this.cart,
-    required this.onIncrease,
-    required this.onDecrease,
+
   });
 
   @override
@@ -85,9 +83,7 @@ class ProductCart extends StatelessWidget {
               )
             else
               QuantitySelector(
-                quantity: cart!.quantity,
-                onIncrease: () => onIncrease(cart!),
-                onDecrease: () => onDecrease(cart!),
+                cart: cart!,
               ),
           ],
         ),

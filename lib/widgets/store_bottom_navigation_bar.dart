@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/widgets/cart_badge.dart';
 
 class StoreBottomNavigationBar extends StatelessWidget {
-  final int selectedIndex;
-  final ValueChanged<int> onItemSelected;
-  final int numberItemCart;
-  final bool hasNewCartitem;
-  const StoreBottomNavigationBar({
-    super.key,
-    required this.selectedIndex,
-    required this.onItemSelected,
-    required this.numberItemCart,
-    required this.hasNewCartitem
-  });
+  const StoreBottomNavigationBar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
+    final appState = AppProvider.of(context);
 
     return Container(
       height: 80,
@@ -35,18 +27,25 @@ class StoreBottomNavigationBar extends StatelessWidget {
           _NavigationItem(
             icon: Icons.storefront,
             label: 'Products',
-            isSelected: selectedIndex == 0,
-            onTap: () => onItemSelected(0),
-            hasNewCartItem: hasNewCartitem,
+            isSelected: appState.selectedIndex == 0,
+            onTap: () {
+              appState.goHome();
+            },
+            hasNewCartItem: appState.showCartBadge,
           ),
           _NavigationItem(
             icon: Icons.shopping_bag_outlined,
             label: 'Cart',
-            isSelected: selectedIndex == 1,
-            onTap: () => onItemSelected(1),
+            isSelected: appState.selectedIndex == 1,
+            onTap: () {
+              ScaffoldMessenger.of(context).clearSnackBars();
+              Future.delayed(Duration(milliseconds: 150), () {
+                appState.goCart();
+              });
+            },
             showBadge: true,
-            numberItemCart: numberItemCart,
-            hasNewCartItem: hasNewCartitem,
+            numberItemCart: appState.cartBadgeCount,
+            hasNewCartItem: appState.showCartBadge,
           ),
         ],
       ),
@@ -69,7 +68,7 @@ class _NavigationItem extends StatelessWidget {
     required this.onTap,
     this.showBadge = false,
     this.numberItemCart = 0,
-    required this.hasNewCartItem
+    required this.hasNewCartItem,
   });
 
   @override
@@ -112,7 +111,7 @@ class _NavigationItem extends StatelessWidget {
                 Positioned(
                   top: 2,
                   right: 14,
-                  child: CartBadge(numberItemCart: numberItemCart)
+                  child: CartBadge(numberItemCart: numberItemCart),
                 ),
             ],
           ),

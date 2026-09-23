@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/widgets/app_button.dart';
 
 class CartEmpty extends StatelessWidget {
-  final VoidCallback onExploreProducts;
-  const CartEmpty({super.key,required this.onExploreProducts});
+  const CartEmpty({super.key});
 
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
+    final appState = AppProvider.of(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -44,7 +45,7 @@ class CartEmpty extends StatelessWidget {
           size: Size(200, 50),
           text: 'Explore Products',
           icon: Icons.storefront,
-          onPressed: onExploreProducts,
+          onPressed: appState.goHome,
         ),
       ],
     );

@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/widgets/app_button.dart';
 
+class OrderSuccessDialogHelper{
+  static void show(BuildContext context,VoidCallback continueShopping){
+      showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return OrderSuccessDialog(
+          continueShopping:continueShopping,
+        );
+        
+      },
+    );
+  }
+}
+ 
 class OrderSuccessDialog extends StatelessWidget {
   final VoidCallback continueShopping;
   const OrderSuccessDialog({super.key,required this.continueShopping});
@@ -33,7 +48,10 @@ class OrderSuccessDialog extends StatelessWidget {
           size: Size(double.infinity, 45),
           text: 'Continue Shopping',
           icon: Icons.shopping_bag_outlined,
-          onPressed: continueShopping,
+          onPressed: () {
+            Navigator.pop(context);
+            continueShopping();
+          },
         ),
       ],
     );

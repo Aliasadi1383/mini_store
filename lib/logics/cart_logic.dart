@@ -1,7 +1,7 @@
 import 'package:mini_store/models/cart_models.dart';
 
 class CartLogic {
-  static void addProductCart(CartModels cart, List<CartModels> cartList) {
+  static void addProductCart(CartItemModel cart, List<CartItemModel> cartList) {
     final int index = cartList.indexWhere(
       (element) => element.product.id == cart.product.id,
     );
@@ -13,25 +13,25 @@ class CartLogic {
     }
   }
 
-  static void increaseQuantity(CartModels cart) {
+  static void increaseQuantity(CartItemModel cart) {
     cart.quantity++;
   }
 
-  static void decreaseQuantity(CartModels cart) {
+  static void decreaseQuantity(CartItemModel cart) {
     if (cart.quantity > 1) {
       cart.quantity--;
     }
   }
 
-  static void removeProductCart(CartModels cart, List<CartModels> cartList) {
+  static void removeProductCart(CartItemModel cart, List<CartItemModel> cartList) {
     cartList.remove(cart);
   }
 
-  static int totalQuantity(List<CartModels> cartList) {
+  static int totalQuantity(List<CartItemModel> cartList) {
     return cartList.fold(0, (sum, cart) => sum + cart.quantity);
   }
 
-  static double subTotal(List<CartModels> cartList) {
+  static double subTotal(List<CartItemModel> cartList) {
     double total = 0;
     for (var cart in cartList) {
       total += cart.quantity * cart.product.price;
