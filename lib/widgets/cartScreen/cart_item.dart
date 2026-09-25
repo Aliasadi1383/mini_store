@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/models/cart_models.dart';
 import 'package:mini_store/state/cart_provider.dart';
-import 'package:mini_store/state/cart_state.dart';
 import 'package:mini_store/widgets/quantity_selector.dart';
 
 class CartItem extends StatelessWidget {
-  
   final CartItemModel cart;
 
-  const CartItem({
-    super.key,
+  const CartItem({super.key, required this.cart});
 
-    required this.cart,
-  });
 
   @override
   Widget build(BuildContext context) {
-    final CartState cartState=CartProvider.of(context);
-
     return Card(
       elevation: 2,
-     margin: EdgeInsets.only(top: 12),
+      margin: EdgeInsets.only(top: 12),
       color: Theme.of(context).colorScheme.surface,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -49,23 +42,16 @@ class CartItem extends StatelessWidget {
   }
 
   Widget _buildTotalPrice(BuildContext context) {
-  final CartState cartState=CartProvider.of(context);
-  
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Expanded(
           child: Text(
-            '\$${(cart.product.price*cart.quantity).toStringAsFixed(2)}',
+            '\$${(cart.product.price * cart.quantity).toStringAsFixed(2)}',
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        QuantitySelector(
-          // quantity: cart.quantity,
-          cart: cart,
-          //onIncrease: () => onIncrease(cart),
-          //onDecrease: () => onDecrease(cart),
-        ),
+        QuantitySelector(cart: cart),
       ],
     );
   }
@@ -82,6 +68,7 @@ class CartItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
         ),
+        
         IconButton(
           style: IconButton.styleFrom(
             padding: EdgeInsets.zero,
@@ -99,7 +86,12 @@ class CartItem extends StatelessWidget {
   Widget _buildCartImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(cart.product.imagePath, width: 80, height: 80, fit: BoxFit.cover),
+      child: Image.asset(
+        cart.product.imagePath,
+        width: 80,
+        height: 80,
+        fit: BoxFit.cover,
+      ),
     );
   }
 }

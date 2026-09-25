@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class StoreAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const StoreAppBar({super.key, required this.title});
+  final Widget? iconButton;
+  const StoreAppBar({super.key, required this.title,this.iconButton});
 
   @override
   Widget build(BuildContext context) {
@@ -10,6 +11,7 @@ class StoreAppBar extends StatelessWidget implements PreferredSizeWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return AppBar(
+      automaticallyImplyLeading: false,
       title: Row(
         children: [
           Container(
@@ -37,6 +39,10 @@ class StoreAppBar extends StatelessWidget implements PreferredSizeWidget {
               Text(title, style: textTheme.titleLarge),
             ],
           ),
+          if(iconButton!=null)...[
+          const Spacer(),
+          iconButton!,
+          ]
         ],
       ),
     );

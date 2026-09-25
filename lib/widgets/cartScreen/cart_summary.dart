@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/state/cart_provider.dart';
+import 'package:mini_store/state/favorite_provider.dart';
 import 'package:mini_store/widgets/app_button.dart';
 import 'package:mini_store/widgets/cartScreen/order_success_dialog.dart';
 
 class CartSummary extends StatelessWidget {
-  const CartSummary({
-    super.key,
-  });
+  const CartSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
-  final appState = AppProvider.of(context);
-  final cartState = CartProvider.of(context);
-  final subtotal = CartLogic.subTotal(cartState.cartList);
-  final discount = CartLogic.discount(subtotal);
-  final tax = CartLogic.tax(subtotal);
-  final discountAmount = CartLogic.discountAmount(subtotal, discount);
-  final taxAmount = CartLogic.taxAmount(subtotal, tax);
+    final appState = AppProvider.of(context);
+    final cartState = CartProvider.of(context);
+    final favorite = FavoriteProvider.of(context);
+    final subtotal = CartLogic.subTotal(cartState.cartList);
+    final discount = CartLogic.discount(subtotal);
+    final tax = CartLogic.tax(subtotal);
+    final discountAmount = CartLogic.discountAmount(subtotal, discount);
+    final taxAmount = CartLogic.taxAmount(subtotal, tax);
     final ColorScheme theme = Theme.of(context).colorScheme;
     final TextTheme textTheme = Theme.of(context).textTheme;
 
@@ -57,7 +57,7 @@ class CartSummary extends StatelessWidget {
             const SizedBox(height: 8),
             _summaryRow(
               title: 'Discount',
-              percentage:discount ,
+              percentage: discount,
               amount: discountAmount,
               textTheme: textTheme,
               color: theme.tertiary.withValues(green: 0.75),
@@ -97,10 +97,11 @@ class CartSummary extends StatelessWidget {
               icon: Icons.lock_outline,
               endIcon: Icons.arrow_forward,
               onPressed: () {
-                  OrderSuccessDialogHelper.show(context, () {
-                    cartState.deleteAllCart();
-                    appState.goHome();
-                  },);
+                OrderSuccessDialogHelper.show(context, () {
+                  favorite.clearCartFavorite(cartState.cartList);
+                  cartState.deleteAllCart();
+                  appState.goHome();
+                });
               },
             ),
           ],

@@ -3,6 +3,8 @@ import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/state/app_state.dart';
 import 'package:mini_store/state/cart_provider.dart';
 import 'package:mini_store/state/cart_state.dart';
+import 'package:mini_store/state/favorite_provider.dart';
+import 'package:mini_store/state/favorite_state.dart';
 
 class AppScope extends StatefulWidget {
   final Widget child;
@@ -15,13 +17,15 @@ class AppScope extends StatefulWidget {
 }
 
 class _AppScopeState extends State<AppScope> {
+
   final AppState appState = AppState();
   final CartState cartState = CartState();
-
+  final FavoriteState favoriteState=FavoriteState();
   @override
   dispose() {
     appState.dispose();
     cartState.dispose();
+    favoriteState.dispose();
     super.dispose();
   }
 
@@ -29,7 +33,10 @@ class _AppScopeState extends State<AppScope> {
   Widget build(BuildContext contex) {
     return AppProvider(
       appState: appState,
-      child: CartProvider(cartState: cartState, child: widget.child),
+      child: CartProvider(
+        cartState: cartState,
+         child: FavoriteProvider(favoriteState: favoriteState,child: widget.child,)
+         ),
     );
   }
 }

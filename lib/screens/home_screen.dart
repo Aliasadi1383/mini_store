@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
 import 'package:mini_store/logics/home_logic.dart';
 import 'package:mini_store/models/product_models.dart';
+import 'package:mini_store/screens/favorite_products_screen.dart';
 import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/state/cart_provider.dart';
+import 'package:mini_store/state/favorite_provider.dart';
 import 'package:mini_store/widgets/cart_snack_bar.dart';
 import 'package:mini_store/widgets/homeScreen/product_category_filter.dart';
 import 'package:mini_store/widgets/homeScreen/product_search_field.dart';
@@ -22,7 +24,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Categories? _selectedCategory;
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+  final favoriteState=FavoriteProvider.of(context);
+
     final cartState = CartProvider.of(context);
     final appState = AppProvider.of(context);
     final searchedProducts = HomeLogic.filterSearch(
@@ -36,7 +46,38 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Scaffold(
-      appBar: const StoreAppBar(title: 'Products'),
+      appBar: StoreAppBar(
+        title: 'Products',
+        iconButton: Stack(
+          children: [
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FavoriteProductsScreen(),
+                  ),
+                );
+              },
+              icon: Icon(Icons.favorite_border),
+            ),
+            if (favoriteState.hasFavorite())
+              Positioned(
+                bottom: 15,
+                right: 0,
+                left: 0,
+                child: Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.error,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
       body: CustomScrollView(
         slivers: [
           SliverPadding(
@@ -98,7 +139,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     addCart: () {
                       cartState.addCart(filteredProducts[index]);
                       appState.cartAdded();
-                      CartSnackBarHelper.show(context: context);
+                      CartSnackBarHelper.show(
+                        context: context,
+                        onView: () {
+                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                          appState.goCart();
+                        },
+                        title: 'Cart (${appState.cartBadgeCount} items)',
+                        icon: Icons.shopping_bag_outlined,
+                      );
                     },
 
                     cart: cartitem,

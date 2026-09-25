@@ -7,13 +7,15 @@ class ProductModels {
  final String imagePath;
  final double? oldPrice;
  final Categories category;
+ bool isFavorite;
   
-  const ProductModels({
+   ProductModels({
     required this.id,
     required this.name,
     required this.price,
     required this.imagePath,
     required this.category,
-    this.oldPrice
+    this.oldPrice,
+    this.isFavorite=false,
   });
 }

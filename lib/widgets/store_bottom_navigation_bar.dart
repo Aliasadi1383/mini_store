@@ -38,10 +38,8 @@ class StoreBottomNavigationBar extends StatelessWidget {
             label: 'Cart',
             isSelected: appState.selectedIndex == 1,
             onTap: () {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              Future.delayed(Duration(milliseconds: 150), () {
+              ScaffoldMessenger.of(context).removeCurrentSnackBar();
                 appState.goCart();
-              });
             },
             showBadge: true,
             numberItemCart: appState.cartBadgeCount,
