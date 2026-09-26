@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
+import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/logics/home_logic.dart';
 import 'package:mini_store/models/product_models.dart';
 import 'package:mini_store/screens/details_product_screen.dart';
@@ -130,11 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               sliver: SliverGrid(
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  final cartitem = cartState.cartList
-                      .where(
-                        (cart) => cart.product.id == filteredProducts[index].id,
-                      )
-                      .firstOrNull;
+                  final cartitem = CartLogic.findCartItem(cartState.cartList, filteredProducts[index].id);
 
                   return InkWell(
                     onTap: () {

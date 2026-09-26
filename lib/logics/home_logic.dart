@@ -5,10 +5,12 @@ class HomeLogic {
     String name,
     List<ProductModels> products,
   ) {
-    if (name.isEmpty) {
+    final String search = name.trim().toLowerCase();
+
+    if (search.isEmpty) {
       return products;
     }
-    final String search = name.trim().toLowerCase();
+    
     return products
         .where((element) => element.name.toLowerCase().contains(search))
         .toList();

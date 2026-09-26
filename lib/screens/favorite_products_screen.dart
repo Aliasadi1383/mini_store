@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
+import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/state/cart_provider.dart';
 import 'package:mini_store/state/favorite_provider.dart';
@@ -38,9 +39,7 @@ class FavoriteProductsScreen extends StatelessWidget {
             childAspectRatio: 0.52,
           ),
           itemBuilder: (context, index) {
-            final cartitem = cartState.cartList
-                .where((cart) => cart.product.id == filterFavorite[index].id)
-                .firstOrNull;
+            final cartitem = CartLogic.findCartItem(cartState.cartList, filterFavorite[index].id);
       
             return ProductCard(
               product: filterFavorite[index],

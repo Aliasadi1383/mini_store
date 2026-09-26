@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_store/logics/cart_logic.dart';
 import 'package:mini_store/models/product_models.dart';
 import 'package:mini_store/screens/favorite_products_screen.dart';
 import 'package:mini_store/state/app_provider.dart';
@@ -20,9 +21,7 @@ class DetailsProductScreen extends StatelessWidget {
     final cartState = CartProvider.of(context);
     final appState = AppProvider.of(context);
     final favoriteState = FavoriteProvider.of(context);
-    final cartitem = cartState.cartList
-        .where((cart) => cart.product.id == product.id)
-        .firstOrNull;
+    final cartitem = CartLogic.findCartItem(cartState.cartList, product.id);
     return PopScope(
       onPopInvokedWithResult: (didPop, _) {
         if (didPop) {

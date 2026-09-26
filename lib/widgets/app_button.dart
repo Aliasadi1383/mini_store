@@ -22,6 +22,7 @@ class AppButton extends StatefulWidget {
 
 class _AppButtonState extends State<AppButton> {
   bool isBig=false;
+  bool isAnimating=false;
   @override
   Widget build(BuildContext context) {
     final ColorScheme theme=Theme.of(context).colorScheme;
@@ -50,6 +51,10 @@ class _AppButtonState extends State<AppButton> {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           onPressed: () async{
+            if (isAnimating) return;
+            
+             isAnimating=true;
+
             setState(() {
               isBig=!isBig;
             });
@@ -58,6 +63,9 @@ class _AppButtonState extends State<AppButton> {
               isBig=!isBig;
             });
              await Future.delayed(Duration(milliseconds: 100));
+             
+             isAnimating=false;
+
             widget.onPressed();
           },
           child: Row(
