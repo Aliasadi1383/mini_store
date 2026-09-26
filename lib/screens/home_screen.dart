@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mini_store/data/products_data.dart';
 import 'package:mini_store/logics/home_logic.dart';
 import 'package:mini_store/models/product_models.dart';
+import 'package:mini_store/screens/details_product_screen.dart';
 import 'package:mini_store/screens/favorite_products_screen.dart';
 import 'package:mini_store/state/app_provider.dart';
 import 'package:mini_store/state/cart_provider.dart';
@@ -78,7 +79,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: CustomScrollView(
+      body:    
+      CustomScrollView(
         slivers: [
           SliverPadding(
             padding: const EdgeInsetsGeometry.symmetric(
@@ -134,23 +136,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                       .firstOrNull;
 
-                  return ProductCard(
-                    product: filteredProducts[index],
-                    addCart: () {
-                      cartState.addCart(filteredProducts[index]);
-                      appState.cartAdded();
-                      CartSnackBarHelper.show(
-                        context: context,
-                        onView: () {
-                          ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                          appState.goCart();
-                        },
-                        title: 'Cart (${appState.cartBadgeCount} items)',
-                        icon: Icons.shopping_bag_outlined,
-                      );
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsProductScreen(product: filteredProducts[index])));
+                    ScaffoldMessenger.of(context).removeCurrentSnackBar();
                     },
-
-                    cart: cartitem,
+                    child: ProductCard(
+                      product: filteredProducts[index],
+                      addCart: () {
+                        cartState.addCart(filteredProducts[index]);
+                        appState.cartAdded();
+                        CartSnackBarHelper.show(
+                          context: context,
+                          onView: () {
+                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                            appState.goCart();
+                          },
+                          title: 'Cart (${appState.cartBadgeCount} items)',
+                          icon: Icons.shopping_bag_outlined,
+                        );
+                     
+                      },
+                    
+                      cart: cartitem,
+                    ),
                   );
                 }, childCount: filteredProducts.length),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

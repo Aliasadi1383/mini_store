@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mini_store/widgets/app_gradient_button.dart';
 
-class AppButton extends StatelessWidget {
+class AppButton extends StatefulWidget {
   final Size size;
   final String text;
   final IconData icon;
@@ -17,6 +17,12 @@ class AppButton extends StatelessWidget {
   });
 
   @override
+  State<AppButton> createState() => _AppButtonState();
+}
+
+class _AppButtonState extends State<AppButton> {
+  bool isBig=false;
+  @override
   Widget build(BuildContext context) {
     final ColorScheme theme=Theme.of(context).colorScheme;
 
@@ -30,25 +36,41 @@ class AppButton extends StatelessWidget {
           blurRadius: 12,
         )],
       ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          minimumSize: size,
-          foregroundColor: theme.onPrimary,
-          backgroundColor: Colors.transparent,
-          shadowColor: Colors.transparent,
-          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        ),
-        onPressed: onPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon),
-            const SizedBox(width: 6),
-            Text(text, style: Theme.of(context).textTheme.labelMedium),
-            const SizedBox(width: 6),
-            if (endIcon != null) Icon(endIcon),
-          ],
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 50),
+        width:isBig?widget.size.width+5:widget.size.width,
+        height:isBig? widget.size.height+5:widget.size.height,
+        child: ElevatedButton(
+          
+          style: ElevatedButton.styleFrom(
+            minimumSize: widget.size,
+            foregroundColor: theme.onPrimary,
+            backgroundColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          onPressed: () async{
+            setState(() {
+              isBig=!isBig;
+            });
+            await Future.delayed(Duration(milliseconds: 100));
+            setState(() {
+              isBig=!isBig;
+            });
+             await Future.delayed(Duration(milliseconds: 100));
+            widget.onPressed();
+          },
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(widget.icon),
+              const SizedBox(width: 6),
+              Text(widget.text, style: Theme.of(context).textTheme.labelMedium),
+              const SizedBox(width: 6),
+              if (widget.endIcon != null) Icon(widget.endIcon),
+            ],
+          ),
         ),
       ),
     );
